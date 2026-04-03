@@ -1,0 +1,34 @@
+{
+  "name": "cse-341-quickrecipes",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/Vikitohyah/cse-341-quickrecipes#readme",
+  "bugs": {
+    "url": "https://github.com/Vikitohyah/cse-341-quickrecipes/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vikitohyah/cse-341-quickrecipes.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js",
+    "swagger": "node ./swagger.js"
+  },
+  "dependencies": {
+    "body-parser": "^2.2.2",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "express-validator": "^7.3.2",
+    "mongodb": "^7.1.0",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14",
+    "swagger-autogen": "^2.23.7"
+  }
+}
