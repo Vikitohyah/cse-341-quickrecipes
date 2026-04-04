@@ -58,8 +58,51 @@ const createUsers = async (req, res) => {
     }
 }
 
+const updateUser = async (req, res) => {
+    try {
+        if (!ObjectId.isValid(req.params.id)) {
+            res.status(400).json({ message: "Must use a valid user ID" });
+            return;
+        }
+        const userId = new ObjectId(req.params.id);
+        const user = {
+            name: req.body.name,
+            email: req.body.email,
+            oauthId: req.body.oauthId,
+        };
+        const response = await mongodb.getDatabase().db().collection('users').replaceOne({ _id: userId }, user);
+        if (response.modifiedCount > 0) {
+            res.status(204).send();
+        } else {
+            res.status(500).json({ message: "Some error occurred while updating the user" });
+        }
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
+const deleteUser = async (req, res) => {
+    try {
+        if (!ObjectId.isValid(req.params.id)) {
+            res.status(400).json({ message: "Must use a valid user ID" });
+            return;
+        }
+        const userId = new ObjectId(req.params.id);
+        const response = await mongodb.getDatabase().db().collection('users').deleteOne({ _id: userId });
+        if (response.deletedCount > 0) {
+            res.status(204).send();
+        } else {
+            res.status(500).json({ message: "Some error occurred while deleting the user" });
+        }
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
 module.exports = {
     getAll,
     getSingle,
-    createUsers
+    createUsers,
+    updateUser,
+    deleteUser
 }
