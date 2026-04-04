@@ -63,8 +63,56 @@ const createRecipes = async (req, res) => {
     }
 }
 
+const updateRecipe = async (req, res) => {
+    try {
+        if (!ObjectId.isValid(req.params.id)) {
+            res.status(400).json({ message: "Must use a valid recipe ID" });
+            return;
+        }
+        const recipeId = new ObjectId(req.params.id);
+        const recipe = {
+            title: req.body.title,
+            description: req.body.description,
+            ingredients: req.body.ingredients,
+            steps: req.body.steps,
+            cookingTime: req.body.cookingTime,
+            difficulty: req.body.difficulty,
+            category: req.body.category,
+            userId: req.body.userId
+        };
+        const response = await mongodb.getDatabase().db().collection('recipes').replaceOne({ _id: recipeId }, recipe);
+        if (response.modifiedCount > 0) {
+            res.status(204).send();
+        } else {
+            res.status(500).json({ message: "Some error occurred while updating the recipe" });
+        }
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
+const deleteRecipe = async (req, res) => {
+    try {
+        if (!ObjectId.isValid(req.params.id)) {
+            res.status(400).json({ message: "Must use a valid recipe ID" });
+            return;
+        }
+        const recipeId = new ObjectId(req.params.id);
+        const response = await mongodb.getDatabase().db().collection('recipes').deleteOne({ _id: recipeId });
+        if (response.deletedCount > 0) {
+            res.status(204).send();
+        } else {
+            res.status(500).json({ message: "Some error occurred while deleting the recipe" });
+        }
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
 module.exports = {
     getAll,
     getSingle,
-    createRecipes
+    createRecipes,
+    updateRecipe,
+    deleteRecipe
 }
