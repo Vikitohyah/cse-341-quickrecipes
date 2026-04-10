@@ -6,7 +6,6 @@ const validate = {}
   * ********************************* */
 validate.createRecipeRules = () => {
   return [
-
     body("title")
       .trim()
       .notEmpty()
@@ -31,8 +30,8 @@ validate.createRecipeRules = () => {
       .withMessage("Steps must not be empty"),
 
     body("steps.*")
-    .isString()
-    .withMessage("Each step must be a string"),
+      .isString()
+      .withMessage("Each step must be a string"),
 
     body("cookingTime")
       .optional()
