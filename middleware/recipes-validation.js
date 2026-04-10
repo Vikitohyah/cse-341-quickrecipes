@@ -31,29 +31,85 @@ validate.createRecipeRules = () => {
       .withMessage("Steps must not be empty"),
 
     body("steps.*")
+    .isString()
+    .withMessage("Each step must be a string"),
+
+    body("cookingTime")
+      .optional()
+      .isString()
+      .withMessage("Cooking time must be a string."),
+
+    body("difficulty")
+      .optional()
+      .isIn(["easy", "medium", "hard"])
+      .withMessage("Invalid difficulty level."),
+
+    body("category")
+      .trim()
+      .notEmpty()
+      .withMessage("Category is required."),
+
+    body("userId")
+      .notEmpty()
+      .withMessage("User ID is required.")
+  ]
+}
+
+/*  **********************************
+  *  Update Recipe Validation Rules
+  * ********************************* */ 
+validate.updateRecipeRules = () => {
+  return [
+    body("title")
+      .optional()
+      .trim()
+      .withMessage("Recipe title must be a string."),
+
+    body("description")
+      .optional()
+      .trim()
+      .withMessage("Recipe description must be a string."),
+
+    // Ingredients (array of strings)
+    body("ingredients")
+      .optional()
+      .isArray({ min: 1 })
+      .withMessage("Ingredients must not be empty"),
+
+    body("ingredients.*")
+      .optional()
+      .isString()
+      .withMessage("Each ingredient must be a string"),
+
+    body("steps")
+      .isArray({ min: 1 })
+      .withMessage("Steps must not be empty"),
+
+    body("steps.*")
       .isString()
       .withMessage("Each step must be a string"),
 
     body("cookingTime")
-        .optional()
-        .isString()
-        .withMessage("Cooking time must be a string."),
+      .optional()
+      .isString()
+      .withMessage("Cooking time must be a string."),
 
     body("difficulty")
-        .optional()
-        .isIn(["easy", "medium", "hard"])
-        .withMessage("Invalid difficulty level."),
+      .optional()
+      .isIn(["easy", "medium", "hard"])
+      .withMessage("Invalid difficulty level."),
 
     body("category")
-        .trim()
-        .notEmpty()
-        .withMessage("Category is required."),
+      .trim()
+      .notEmpty()
+      .withMessage("Category is required."),
 
     body("userId")
-        .notEmpty()
-        .withMessage("User ID is required.")
-    ]
+      .notEmpty()
+      .withMessage("User ID is required.")
+  ]
 }
+
 
 /*  **********************************
   *  Check Errors from Validation Rules
