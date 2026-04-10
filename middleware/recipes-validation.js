@@ -68,13 +68,17 @@ validate.updateRecipeRules = () => {
       .optional()
       .isString()
       .withMessage("Recipe title must be a string.")
-      .trim(),
+      .trim()
+      .notEmpty()
+      .withMessage("Recipe title is required."),
 
     body("description")
       .optional()
       .isString()
       .withMessage("Recipe description must be a string.")
-      .trim(),
+      .trim()
+      .notEmpty()
+      .withMessage("Recipe description is required."),
 
     body("ingredients")
       .optional()

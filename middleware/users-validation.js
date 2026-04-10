@@ -36,19 +36,25 @@ validate.createUsersRules = () => {
       .optional()
       .isString()
       .withMessage("User name must be a string.")
-      .trim(),
+      .trim()
+      .notEmpty()
+      .withMessage("User name is required."),
 
     body("email")
       .optional()
       .isEmail()
       .withMessage("Invalid email format.")
-      .normalizeEmail(),
+      .normalizeEmail()
+      .notEmpty()
+      .withMessage("Email is required."),
 
     body("oauthId")
       .optional()
       .isString()
       .withMessage("OAuth ID must be a string.")
       .trim()
+      .notEmpty()
+      .withMessage("OAuth ID is required.")
   ]
 }
 
