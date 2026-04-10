@@ -6,26 +6,25 @@ const validate = {}
   * ********************************* */
 validate.createUsersRules = () => {
   return [
-    
     body("name")
+      .isString()
+      .withMessage("User name must be a string.")
       .trim()
       .notEmpty()
       .withMessage("User name is required."),
 
     body("email")
-      .trim()
-      .notEmpty()
-      .withMessage("User email is required.")
       .isEmail()
-      .withMessage("Invalid email format."),
+      .withMessage("Invalid email format.")
+      .normalizeEmail(),
 
     body("oauthId")
+      .isString()
+      .withMessage("OAuth ID must be a string.")
       .trim()
       .notEmpty()
       .withMessage("OAuth ID is required.")
-      .isString()
-      .withMessage("OAuth ID must be a string")
-    ]
+  ]
 }
 
 /*  **********************************
@@ -34,26 +33,24 @@ validate.createUsersRules = () => {
  validate.updateUserRules = () => {
   return [
     body("name")
-      .trim()
-      .notEmpty()
-      .withMessage("User name is required."),
+      .optional()
+      .isString()
+      .withMessage("User name must be a string.")
+      .trim(),
 
     body("email")
-      .trim()
-      .notEmpty()
-      .withMessage("User email is required.")
+      .optional()
       .isEmail()
-      .withMessage("Invalid email format."),
+      .withMessage("Invalid email format.")
+      .normalizeEmail(),
 
     body("oauthId")
-      .trim()
-      .notEmpty()
-      .withMessage("OAuth ID is required.")
+      .optional()
       .isString()
-      .withMessage("OAuth ID must be a string")
+      .withMessage("OAuth ID must be a string.")
+      .trim()
   ]
 }
-
 
 /*  **********************************
   *  Check Errors from Validation Rules

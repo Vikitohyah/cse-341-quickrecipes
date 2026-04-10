@@ -7,19 +7,22 @@ const validate = {}
 validate.createRecipeRules = () => {
   return [
     body("title")
+      .isString()
+      .withMessage("Recipe title must be a string.")
       .trim()
       .notEmpty()
       .withMessage("Recipe title is required."),
 
     body("description")
+      .isString()
+      .withMessage("Recipe description must be a string.")
       .trim()
       .notEmpty()
       .withMessage("Recipe description is required."),
 
-    // Ingredients (array of strings)
     body("ingredients")
       .isArray({ min: 1 })
-      .withMessage("Ingredients must not be empty"),
+      .withMessage("Ingredients must be a non-empty array"),
 
     body("ingredients.*")
       .isString()
@@ -27,7 +30,7 @@ validate.createRecipeRules = () => {
 
     body("steps")
       .isArray({ min: 1 })
-      .withMessage("Steps must not be empty"),
+      .withMessage("Steps must be a non-empty array"),
 
     body("steps.*")
       .isString()
@@ -44,6 +47,8 @@ validate.createRecipeRules = () => {
       .withMessage("Invalid difficulty level."),
 
     body("category")
+      .isString()
+      .withMessage("Category must be a string.")
       .trim()
       .notEmpty()
       .withMessage("Category is required."),
@@ -61,19 +66,20 @@ validate.updateRecipeRules = () => {
   return [
     body("title")
       .optional()
-      .trim()
-      .withMessage("Recipe title must be a string."),
+      .isString()
+      .withMessage("Recipe title must be a string.")
+      .trim(),
 
     body("description")
       .optional()
-      .trim()
-      .withMessage("Recipe description must be a string."),
+      .isString()
+      .withMessage("Recipe description must be a string.")
+      .trim(),
 
-    // Ingredients (array of strings)
     body("ingredients")
       .optional()
       .isArray({ min: 1 })
-      .withMessage("Ingredients must not be empty"),
+      .withMessage("Ingredients must be a non-empty array"),
 
     body("ingredients.*")
       .optional()
@@ -81,10 +87,12 @@ validate.updateRecipeRules = () => {
       .withMessage("Each ingredient must be a string"),
 
     body("steps")
+      .optional()
       .isArray({ min: 1 })
-      .withMessage("Steps must not be empty"),
+      .withMessage("Steps must be a non-empty array"),
 
     body("steps.*")
+      .optional()
       .isString()
       .withMessage("Each step must be a string"),
 
@@ -99,13 +107,17 @@ validate.updateRecipeRules = () => {
       .withMessage("Invalid difficulty level."),
 
     body("category")
+      .optional()
+      .isString()
+      .withMessage("Category must be a string.")
       .trim()
       .notEmpty()
-      .withMessage("Category is required."),
+      .withMessage("Category cannot be empty."),
 
     body("userId")
+      .optional()
       .notEmpty()
-      .withMessage("User ID is required.")
+      .withMessage("User ID cannot be empty.")
   ]
 }
 
