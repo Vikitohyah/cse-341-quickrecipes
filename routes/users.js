@@ -12,8 +12,11 @@ router.post('/',
     validate.checkErrors,
     usersController.createUsers)
     
-router.post('/', usersController.createUsers)
-router.put('/:id', usersController.updateUser);
+router.put('/:id',
+    validate.updateUserRules(),
+    validate.checkErrors,
+    usersController.updateUser);
+    
 router.delete('/:id', usersController.deleteUser);
 
 module.exports = router;

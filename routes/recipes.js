@@ -12,8 +12,11 @@ router.post('/',
     validate.checkErrors,
     recipesController.createRecipes)
     
-router.post('/', recipesController.createRecipes)
-router.put('/:id', recipesController.updateRecipe);
+router.put('/:id',
+    validate.updateRecipeRules(),
+    validate.checkErrors,
+    recipesController.updateRecipe);
+    
 router.delete('/:id', recipesController.deleteRecipe);
 
 module.exports = router;
