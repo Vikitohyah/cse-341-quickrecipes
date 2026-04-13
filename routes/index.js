@@ -9,5 +9,7 @@ routes.get('/', controller.helloWorld);
 
 routes.use('/recipes', require('./recipes'));
 routes.use('/users', require('./users'));
+routes.use('/favorites', require('./favorites'));
+routes.use('/tips', require('./tips'));
 
 module.exports = routes
