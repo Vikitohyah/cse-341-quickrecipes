@@ -1,9 +1,9 @@
 const express = require('express');
-const  app = express();
+const app = express();
 const bodyParser = require('body-parser')
 const routes = require('./routes');
 const port = process.env.PORT || 3000;
-const mongodb = require('./data/database');
+const mongodb = require('./db/connect'); // Unified database connection
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 
@@ -20,11 +20,15 @@ app.use((req, res, next) => {
 app.use('/', routes)
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-mongodb.initDb((err) => {
+mongodb.initDb((err, mongodb) => { // Updated callback signature for consistency
     if (err) {
         console.log(err);
     }
     else {
-        app.listen(port, () => {console.log(`Database is listening and Server is running on port ${port}`)});
+        app.listen(port, () => { console.log(`Database is listening and Server is running on port ${port}`) });
     }
 })
+
+module.exports = app;
+
+module.exports = app;
