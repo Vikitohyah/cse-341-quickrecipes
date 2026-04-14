@@ -8,7 +8,7 @@ router.get('/', tipsController.getAll);
 router.get('/:id', tipsController.getSingle);
 
 router.post('/',
-    aunthenticate.isAuthenticated,
+   // aunthenticate.isAuthenticated,
     validate.createTipRules(),
     validate.checkErrors,
     tipsController.createTip)

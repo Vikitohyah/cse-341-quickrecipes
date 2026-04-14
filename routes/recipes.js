@@ -8,20 +8,20 @@ router.get('/', recipesController.getAll);
 router.get('/:id', recipesController.getSingle);
 
 router.post('/',
-    aunthenticate.isAuthenticated,
+   // aunthenticate.isAuthenticated,
     validate.createRecipeRules(),
     validate.checkErrors,
     recipesController.createRecipes)
     
     
 router.put('/:id',
-    aunthenticate.isAuthenticated,
+   // aunthenticate.isAuthenticated,
     validate.updateRecipeRules(),
     validate.checkErrors,
     recipesController.updateRecipe);
     
 router.delete('/:id',
-    aunthenticate.isAuthenticated,
+   // aunthenticate.isAuthenticated,
     recipesController.deleteRecipe);
 
 module.exports = router;

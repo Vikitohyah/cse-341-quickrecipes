@@ -8,19 +8,19 @@ router.get('/', usersController.getAll);
 router.get('/:id', usersController.getSingle);
 
 router.post('/',
-    aunthenticate.isAuthenticated,
+   // aunthenticate.isAuthenticated,
     validate.createUsersRules(),
     validate.checkErrors,
     usersController.createUsers)
     
 router.put('/:id',
-    aunthenticate.isAuthenticated,
+   // aunthenticate.isAuthenticated,
     validate.updateUserRules(),
     validate.checkErrors,
     usersController.updateUser);
     
 router.delete('/:id',
-    aunthenticate.isAuthenticated,
+   // aunthenticate.isAuthenticated,
     usersController.deleteUser);
 
 module.exports = router;

@@ -72,8 +72,15 @@ app.get('/github/callback', passport.authenticate('github',
 mongodb.initDb((err) => {
     if (err) {
         console.log(err);
+    } else {
+        console.log("Database connected");
+
+        if (process.env.NODE_ENV !== 'test') {
+        app.listen(port, () => {
+            console.log(`Server running on port ${port}`);
+         });
+        }
     }
-    else {
-        app.listen(port, () => {console.log(`Database is listening and Server is running on port ${port}`)});
-    }
-})
+});
+
+module.exports = app;
