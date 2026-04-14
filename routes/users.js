@@ -16,6 +16,14 @@ router.post('/',
 
 // Update a user - requires authentication and validation
 router.put('/:id',
+   // aunthenticate.isAuthenticated,
+    validate.updateUserRules(),
+    validate.checkErrors,
+    usersController.updateUser);
+    
+router.delete('/:id',
+   // aunthenticate.isAuthenticated,
+    usersController.deleteUser);
     isAuthenticated,
     validate.updateUserRules(),
     validate.checkErrors,

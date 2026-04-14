@@ -4,9 +4,9 @@ const ObjectId = require('mongodb').ObjectId;
 const getAll = async (req, res) => {
     try {
         const result = await mongodb.getDatabase().db().collection('tips').find();
-        const recipes = await result.toArray();
+        const tips = await result.toArray();
         res.setHeader('Content-Type', 'application/json');
-        res.status(200).json(recipes);
+        res.status(200).json(tips);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
