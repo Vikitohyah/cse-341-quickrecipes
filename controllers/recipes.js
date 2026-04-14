@@ -1,4 +1,3 @@
-const { response } = require('express');
 const mongodb = require('../data/database');
 const ObjectId = require('mongodb').ObjectId;
 
@@ -11,7 +10,7 @@ const getAll = async (req, res) => {
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
-    
+
 }
 
 const getSingle = async (req, res) => {
@@ -22,8 +21,8 @@ const getSingle = async (req, res) => {
         }
 
         const recipeId = new ObjectId(req.params.id);
-        const recipe = await mongodb.getDatabase().db().collection('recipes').findOne({_id: recipeId });
-        
+        const recipe = await mongodb.getDatabase().db().collection('recipes').findOne({ _id: recipeId });
+
         if (!recipe) {
             res.status(404).json({ message: "No recipe found with the given ID" });
             return;
@@ -31,11 +30,11 @@ const getSingle = async (req, res) => {
 
         res.setHeader('Content-Type', 'application/json');
         res.status(200).json(recipe);
-        
+
     } catch (err) {
-        res.status(500).json({ message: err.message });   
+        res.status(500).json({ message: err.message });
     }
-        
+
 }
 
 const createRecipes = async (req, res) => {
@@ -51,11 +50,11 @@ const createRecipes = async (req, res) => {
             category: req.body.category,
             userId: req.body.userId
         };
-    
+
         const response = await mongodb.getDatabase().db().collection('recipes').insertOne(recipe);
-        if (response.acknowledged) {
-            res.status(204).send();
-        }else {
+        if (response.acknowledged > 0) {
+            res.status(201).json(response.insertedId);
+        } else {
             res.status(500).json({ message: "Some error occurred while creating recipe" });
         }
     } catch (err) {

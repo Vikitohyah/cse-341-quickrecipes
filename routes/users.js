@@ -2,17 +2,19 @@ const express = require('express');
 const router = express.Router();
 const validate = require('../middleware/users-validation');
 const usersController = require('../controllers/users');
-const aunthenticate = require('../middleware/authenticate');
+const { isAuthenticated } = require('../middleware/authenticate'); // Import authentication middleware
 
 router.get('/', usersController.getAll);
 router.get('/:id', usersController.getSingle);
 
+// Create a new user - requires authentication and validation
 router.post('/',
-   // aunthenticate.isAuthenticated,
+    isAuthenticated,
     validate.createUsersRules(),
     validate.checkErrors,
     usersController.createUsers)
-    
+
+// Update a user - requires authentication and validation
 router.put('/:id',
    // aunthenticate.isAuthenticated,
     validate.updateUserRules(),
@@ -22,5 +24,12 @@ router.put('/:id',
 router.delete('/:id',
    // aunthenticate.isAuthenticated,
     usersController.deleteUser);
+    isAuthenticated,
+    validate.updateUserRules(),
+    validate.checkErrors,
+    usersController.updateUser);
+
+// Delete a user - requires authentication
+router.delete('/:id', isAuthenticated, usersController.deleteUser);
 
 module.exports = router;
