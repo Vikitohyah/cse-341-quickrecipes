@@ -23,7 +23,6 @@ router.put('/:id',
     
 router.delete('/:id',
    // aunthenticate.isAuthenticated,
-    usersController.deleteUser);
     isAuthenticated,
     validate.updateUserRules(),
     validate.checkErrors,

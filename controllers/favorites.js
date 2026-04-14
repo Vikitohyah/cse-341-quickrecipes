@@ -44,11 +44,11 @@ const createFavorites = async (req, res) => {
             userId: req.body.userId,
             recipeId: req.body.recipeId
         };
-
+    
         const response = await mongodb.getDatabase().db().collection('favorites').insertOne(favorite);
-        if (response.acknowledged > 0) {
-            res.status(201).json(response.insertedId);
-        } else {
+        if (response.acknowledged) {
+            res.status(204).send();
+        }else {
             res.status(500).json({ message: "Some error occurred while creating favorite" });
         }
     } catch (err) {

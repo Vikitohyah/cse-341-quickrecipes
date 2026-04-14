@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const tipsController = require('../controllers/tips');
-const tipsValidation = require('../middleware/tips-validation');
+const validates = require('../middleware/tips-validation');
 const { isAuthenticated } = require('../middleware/authenticate');
 
 // Route to get all tip entries
@@ -16,8 +16,8 @@ router.get('/:id', tipsController.getSingle);
 router.post(
     '/',
     isAuthenticated,
-    tipsValidation.createTipRules(), // Correctly calls the function to get validation rules
-    tipsValidation.checkErrors,
+    validates.createTipRules(), // Correctly calls the function to get validation rules
+    validates.checkErrors,
     tipsController.createTip
 );
 
@@ -26,8 +26,8 @@ router.post(
 router.put(
     '/:id',
     isAuthenticated,
-    tipsValidation.updateTipRules(), // Correctly calls the function to get validation rules
-    tipsValidation.checkErrors,
+    validates.updateTipRules(), // Correctly calls the function to get validation rules
+    validates.checkErrors,
     tipsController.updateTip
 );
 

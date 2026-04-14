@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const favoritesController = require('../controllers/favorites');
-const favoritesValidation = require('../middleware/favorites-validation');
+const validate = require('../middleware/favorites-validation');
 const { isAuthenticated } = require('../middleware/authenticate');
 
 // Route to get all favorite entries
@@ -16,8 +16,8 @@ router.get('/:id', favoritesController.getSingle);
 router.post(
     '/',
     isAuthenticated,
-    favoritesValidation.createFavoriteRules(), // Correctly calls the function to get validation rules
-    favoritesValidation.checkErrors,
+    validate.createFavoriteRules(), // Correctly calls the function to get validation rules
+    validate.checkErrors,
     favoritesController.createFavorites
 );
 
@@ -26,13 +26,15 @@ router.post(
 router.put(
     '/:id',
     isAuthenticated,
-    favoritesValidation.updateFavoriteRules(), // Correctly calls the function to get validation rules
-    favoritesValidation.checkErrors,
+    validate.updateFavoriteRules(), // Correctly calls the function to get validation rules
+    validate.checkErrors,
     favoritesController.updateFavorite
 );
 
 // Route to delete a favorite entry by ID
 // Includes authentication
-router.delete('/:id', isAuthenticated, favoritesController.deleteFavorite);
+router.delete('/:id',
+    isAuthenticated,
+    favoritesController.deleteFavorite);
 
 module.exports = router;
