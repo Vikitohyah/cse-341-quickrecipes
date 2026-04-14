@@ -1,4 +1,3 @@
-const { response } = require('express');
 const mongodb = require('../data/database');
 const ObjectId = require('mongodb').ObjectId;
 
@@ -11,7 +10,7 @@ const getAll = async (req, res) => {
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
-    
+
 }
 
 const getSingle = async (req, res) => {
@@ -22,8 +21,8 @@ const getSingle = async (req, res) => {
         }
 
         const userId = new ObjectId(req.params.id);
-        const user = await mongodb.getDatabase().db().collection('users').findOne({_id: userId });
-        
+        const user = await mongodb.getDatabase().db().collection('users').findOne({ _id: userId });
+
         if (!user) {
             res.status(404).json({ message: "No user found with the given ID" });
             return;
@@ -31,11 +30,11 @@ const getSingle = async (req, res) => {
 
         res.setHeader('Content-Type', 'application/json');
         res.status(200).json(user);
-        
+
     } catch (err) {
-        res.status(500).json({ message: err.message });   
+        res.status(500).json({ message: err.message });
     }
-        
+
 }
 
 const createUsers = async (req, res) => {
@@ -46,11 +45,11 @@ const createUsers = async (req, res) => {
             email: req.body.email,
             oauthId: req.body.oauthId,
         };
-    
+
         const response = await mongodb.getDatabase().db().collection('users').insertOne(user);
-        if (response.acknowledged) {
-            res.status(204).send();
-        }else {
+        if (response.acknowledged > 0) {
+            res.status(201).json(response.insertedId);
+        } else {
             res.status(500).json({ message: "Some error occurred while creating user" });
         }
     } catch (err) {

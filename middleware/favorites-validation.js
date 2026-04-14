@@ -24,7 +24,24 @@ validate.createFavoriteRules = () => {
 /*  **********************************
   *  Update Favorite Validation Rules
   * ********************************* */
+// Rules for validating partial or full updates to a favorite entry
+validate.updateFavoriteRules = () => {
+  return [
+    body("userId")
+      .optional()
+      .notEmpty()
+      .withMessage("User ID cannot be empty.")
+      .isMongoId()
+      .withMessage("Invalid User ID format."),
 
+    body("recipeId")
+      .optional()
+      .notEmpty()
+      .withMessage("Recipe ID cannot be empty.")
+      .isMongoId()
+      .withMessage("Invalid Recipe ID format.")
+  ]
+}
 
 /*  **********************************
   *  Check Errors from Validation Rules
