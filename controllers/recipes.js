@@ -66,7 +66,7 @@ const createRecipes = async (req, res) => {
 const updateRecipe = async (req, res) => {
     //#swagger.tags=['Recipes']
     if (!ObjectId.isValid(req.params.id)) {
-        return res.status(400).json('Must use a valid recipe id to update a recipe.');
+        return res.status(400).json({ message: 'Must use a valid recipe ID to update a recipe.' });
     }
     const recipeId = new ObjectId(req.params.id);
     const recipe = {
@@ -84,19 +84,19 @@ const updateRecipe = async (req, res) => {
             .db()
             .collection('recipes')
             .replaceOne({ _id: recipeId }, recipe);
-        if (response.modifiedCount > 0) {
+        if (response.matchedCount > 0) {
             res.status(204).send();
         } else {
-            res.status(500).json('Some error occurred while updating the recipe.');
+            res.status(404).json({ message: 'Recipe not found or no changes made' });
         }
     } catch (err) {
-        res.status(500).json(err.message || 'Error occurred while updating the recipe.');
+        res.status(500).json({ message: err.message || 'Error occurred while updating the recipe.' });
     }
 };
 const deleteRecipe = async (req, res) => {
     //#swagger.tags=['Recipes']
     if (!ObjectId.isValid(req.params.id)) {
-        return res.status(400).json('Must use a valid recipe id to delete a recipe.');
+        return res.status(400).json({ message: 'Must use a valid recipe ID to delete a recipe.' });
     }
     const recipeId = new ObjectId(req.params.id);
     try {
@@ -104,10 +104,10 @@ const deleteRecipe = async (req, res) => {
         if (response.deletedCount > 0) {
             res.status(204).send();
         } else {
-            res.status(500).json('Some error occurred while deleting the recipe.');
+            res.status(404).json({ message: 'Recipe not found' });
         }
     } catch (err) {
-        res.status(500).json(err.message || 'Error occurred while deleting the recipe.');
+        res.status(500).json({ message: err.message || 'Error occurred while deleting the recipe.' });
     }
 };
 

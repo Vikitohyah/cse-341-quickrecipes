@@ -28,7 +28,4 @@ mongodb.initDb((err, mongodb) => { // Updated callback signature for consistency
         app.listen(port, () => { console.log(`Database is listening and Server is running on port ${port}`) });
     }
 })
-
-module.exports = app;
-
 module.exports = app;

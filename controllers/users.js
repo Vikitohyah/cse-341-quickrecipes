@@ -78,10 +78,10 @@ const updateUser = async (req, res) => {
         };
         // Unified database access method
         const response = await mongodb.getDb().db().collection('users').replaceOne({ _id: userId }, user);
-        if (response.modifiedCount > 0) {
+        if (response.matchedCount > 0) {
             res.status(204).send();
         } else {
-            res.status(500).json({ message: "Some error occurred while updating the user" });
+            res.status(404).json({ message: "User not found or no changes made" });
         }
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -101,7 +101,7 @@ const deleteUser = async (req, res) => {
         if (response.deletedCount > 0) {
             res.status(204).send();
         } else {
-            res.status(500).json({ message: "Some error occurred while deleting the user" });
+            res.status(404).json({ message: "User not found" });
         }
     } catch (err) {
         res.status(500).json({ message: err.message });
