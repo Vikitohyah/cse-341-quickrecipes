@@ -1,12 +1,14 @@
 const { body, validationResult } = require('express-validator');
 
 const recipeRules = [
-    body('title').notEmpty().withMessage('Title is required'),
-    body('description').notEmpty().withMessage('Description is required'),
-    body('ingredients').isArray({ min: 1 }).withMessage('Ingredients must be an array with at least one item'),
-    body('steps').isArray({ min: 1 }).withMessage('Steps must be an array with at least one item'),
-    body('cookingTime').isNumeric().withMessage('Cooking time must be a number'),
-    body('difficulty').isIn(['Easy', 'Medium', 'Hard']).withMessage('Difficulty must be Easy, Medium, or Hard'),
+    // Updated recipe rules to match the schema expected by controllers/recipes.js
+    body('name').notEmpty().withMessage('Name is required'),
+    body('ingredients').notEmpty().withMessage('Ingredients are required and should be a string'),
+    body('instructions').notEmpty().withMessage('Instructions are required'),
+    body('category').notEmpty().withMessage('Category is required'),
+    body('prepTime').notEmpty().withMessage('Preparation time is required'),
+    body('cookTime').notEmpty().withMessage('Cook time is required'),
+    body('servings').isInt({ min: 1 }).withMessage('Servings must be a positive integer'),
 ];
 
 const userRules = [
@@ -29,7 +31,7 @@ const validate = (req, res, next) => {
 };
 
 module.exports = {
-    recipeRules,
+    recipeRules, // Export the updated recipeRules
     userRules,
     validate
 };

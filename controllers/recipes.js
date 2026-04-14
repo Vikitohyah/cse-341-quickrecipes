@@ -1,10 +1,10 @@
-const mongodb = require('../db/connect'); // Assuming this is the correct database connection module
+const mongodb = require('../data/database');
 const ObjectId = require('mongodb').ObjectId;
 
 const getAll = async (req, res) => {
     try {
         // #swagger.tags=['Recipes']
-        const result = await mongodb.getDb().db().collection('recipes').find();
+        const result = await mongodb.getDatabase().db().collection('recipes').find();
         const recipes = await result.toArray();
         res.setHeader('Content-Type', 'application/json');
         res.status(200).json(recipes);
@@ -23,7 +23,7 @@ const getSingle = async (req, res) => {
 
         const recipeId = new ObjectId(req.params.id);
         // #swagger.tags=['Recipes']
-        const recipe = await mongodb.getDb().db().collection('recipes').findOne({ _id: recipeId });
+        const recipe = await mongodb.getDatabase().db().collection('recipes').findOne({ _id: recipeId });
 
         if (!recipe) {
             res.status(404).json({ message: "No recipe found with the given ID" });
@@ -53,7 +53,7 @@ const createRecipes = async (req, res) => {
             servings: req.body.servings
         };
 
-        const response = await mongodb.getDb().db().collection('recipes').insertOne(recipe);
+        const response = await mongodb.getDatabase().db().collection('recipes').insertOne(recipe);
         if (response.acknowledged) {
             res.status(201).json(response); // 201 Created, return the inserted ID
         } else {
@@ -66,7 +66,7 @@ const createRecipes = async (req, res) => {
 const updateRecipe = async (req, res) => {
     //#swagger.tags=['Recipes']
     if (!ObjectId.isValid(req.params.id)) {
-        return res.status(400).json({ message: 'Must use a valid recipe ID to update a recipe.' });
+        return res.status(400).json('Must use a valid recipe id to update a recipe.');
     }
     const recipeId = new ObjectId(req.params.id);
     const recipe = {
@@ -80,7 +80,7 @@ const updateRecipe = async (req, res) => {
     };
     try {
         const response = await mongodb
-            .getDb()
+            .getDatabase()
             .db()
             .collection('recipes')
             .replaceOne({ _id: recipeId }, recipe);
@@ -96,11 +96,11 @@ const updateRecipe = async (req, res) => {
 const deleteRecipe = async (req, res) => {
     //#swagger.tags=['Recipes']
     if (!ObjectId.isValid(req.params.id)) {
-        return res.status(400).json({ message: 'Must use a valid recipe ID to delete a recipe.' });
+        return res.status(400).json('Must use a valid recipe id to delete a recipe.');
     }
     const recipeId = new ObjectId(req.params.id);
     try {
-        const response = await mongodb.getDb().db().collection('recipes').deleteOne({ _id: recipeId });
+        const response = await mongodb.getDatabase().db().collection('recipes').deleteOne({ _id: recipeId });
         if (response.deletedCount > 0) {
             res.status(204).send();
         } else {

@@ -1,9 +1,10 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser')
 const routes = require('./routes');
 const port = process.env.PORT || 3000;
-const mongodb = require('./db/connect'); // Unified database connection
+const mongodb = require('./data/database');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 

@@ -1,10 +1,10 @@
 const request = require('supertest');
 const app = require('../server');
-const mongodb = require('../db/connect');
+const mongodb = require('./data/database');
 
 describe('Users GET Endpoints', () => {
     beforeAll(() => {
-        jest.spyOn(mongodb, 'getDb').mockReturnValue({
+        jest.spyOn(mongodb, 'getDatabase').mockReturnValue({
             db: () => ({
                 collection: () => ({
                     find: () => ({ toArray: jest.fn().mockResolvedValue([{ name: 'John Doe' }]) }),

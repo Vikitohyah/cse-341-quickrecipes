@@ -1,11 +1,11 @@
-const mongodb = require('../db/connect'); // Unified database connection
+const mongodb = require('../data/database');
 const ObjectId = require('mongodb').ObjectId;
 
 const getAll = async (req, res) => {
     try {
         // #swagger.tags=['Users']
         // Unified database access method
-        const result = await mongodb.getDb().db().collection('users').find();
+        const result = await mongodb.getDatabase().db().collection('users').find();
         const users = await result.toArray();
         res.setHeader('Content-Type', 'application/json');
         res.status(200).json(users);
@@ -25,7 +25,7 @@ const getSingle = async (req, res) => {
         const userId = new ObjectId(req.params.id);
         // #swagger.tags=['Users']
         // Unified database access method
-        const user = await mongodb.getDb().db().collection('users').findOne({ _id: userId });
+        const user = await mongodb.getDatabase().db().collection('users').findOne({ _id: userId });
 
         if (!user) {
             res.status(404).json({ message: "No user found with the given ID" });
@@ -51,7 +51,7 @@ const createUsers = async (req, res) => {
         };
 
         // Unified database access method
-        const response = await mongodb.getDb().db().collection('users').insertOne(user);
+        const response = await mongodb.getDatabase().db().collection('users').insertOne(user);
         // Changed to 201 Created for resource creation, consistent with recipes.js
         if (response.acknowledged) {
             res.status(201).json(response);
@@ -77,7 +77,7 @@ const updateUser = async (req, res) => {
             oauthId: req.body.oauthId,
         };
         // Unified database access method
-        const response = await mongodb.getDb().db().collection('users').replaceOne({ _id: userId }, user);
+        const response = await mongodb.getDatabase().db().collection('users').replaceOne({ _id: userId }, user);
         if (response.matchedCount > 0) {
             res.status(204).send();
         } else {
@@ -97,7 +97,7 @@ const deleteUser = async (req, res) => {
         }
         const userId = new ObjectId(req.params.id);
         // Unified database access method
-        const response = await mongodb.getDb().db().collection('users').deleteOne({ _id: userId });
+        const response = await mongodb.getDatabase().db().collection('users').deleteOne({ _id: userId });
         if (response.deletedCount > 0) {
             res.status(204).send();
         } else {

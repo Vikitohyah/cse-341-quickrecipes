@@ -1,12 +1,12 @@
 const request = require('supertest');
 const app = require('../server');
-const mongodb = require('../db/connect');
+const mongodb = require('./data/database');
 const { ObjectId } = require('mongodb');
 
 describe('Recipes GET Endpoints', () => {
     beforeAll(() => {
         // Mock the database connection
-        jest.spyOn(mongodb, 'getDb').mockReturnValue({
+        jest.spyOn(mongodb, 'getDatabase').mockReturnValue({
             db: () => ({
                 collection: () => ({
                     find: () => ({ toArray: jest.fn().mockResolvedValue([{ name: 'Test Pasta' }]) }),
