@@ -46,11 +46,11 @@ const createUsers = async (req, res) => {
             oauthId: req.body.oauthId,
         };
 
-        const response = await mongodb.getDatabase().db().collection('favorites').insertOne(favorite);
+        const response = await mongodb.getDatabase().db().collection('users').insertOne(user);
         if (response.acknowledged) {
             res.status(204).send();
         }else {
-            res.status(500).json({ message: "Some error occurred while creating favorite" });
+            res.status(500).json({ message: "Some error occurred while creating user" });
         }
     } catch (err) {
         res.status(500).json({ message: err.message });
