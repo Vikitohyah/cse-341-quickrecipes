@@ -16,13 +16,13 @@ router.post('/',
 
 // Update a recipe - requires authentication and validation
 router.put('/:id',
-   // aunthenticate.isAuthenticated,
+    isAuthenticated,
     validate.updateRecipeRules(),
     validate.checkErrors,
     recipesController.updateRecipe);
     
 router.delete('/:id',
-   // aunthenticate.isAuthenticated,
+    isAuthenticated,
     recipesController.deleteRecipe);
 
 module.exports = router;
