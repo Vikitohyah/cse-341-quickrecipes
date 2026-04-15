@@ -20,12 +20,6 @@ router.put('/:id',
     validate.updateUserRules(),
     validate.checkErrors,
     usersController.updateUser);
-    
-router.delete('/:id',
-    isAuthenticated,
-    validate.updateUserRules(),
-    validate.checkErrors,
-    usersController.updateUser);
 
 // Delete a user - requires authentication
 router.delete('/:id', isAuthenticated, usersController.deleteUser);
